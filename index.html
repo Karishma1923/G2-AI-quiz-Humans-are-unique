@@ -1,0 +1,292 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>What Makes Humans Unique Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: one centered quiz card on a playful backdrop; header (score + progress), question card, 2x2 answer tiles, feedback strip, results screen. */
+:root {
+  --bg: #fff6e0;
+  --card: #ffffff;
+  --fg: #2b2350;
+  --muted: #6b6490;
+  --line: #e7dcc0;
+  --sun: #ffc233;
+  --coral: #ff6b5e;
+  --sky: #2fa4ff;
+  --mint: #22c58b;
+  --grape: #8b5cf6;
+  --good-bg: #d9f7ea;
+  --good-fg: #0b6b47;
+  --bad-bg: #ffe0dc;
+  --bad-fg: #a1261a;
+  --shadow: 0 6px 0 rgba(43,35,80,.14);
+  --font-display: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1c1740; --card: #2a2360; --fg: #fff4dc; --muted: #b9b0e6; --line: #433a8a;
+    --sun: #ffd25e; --coral: #ff8277; --sky: #5cb8ff; --mint: #3fdca4; --grape: #a98bff;
+    --good-bg: #124f3d; --good-fg: #aef5d6; --bad-bg: #5a2330; --bad-fg: #ffc4bd;
+    --shadow: 0 6px 0 rgba(0,0,0,.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1c1740; --card: #2a2360; --fg: #fff4dc; --muted: #b9b0e6; --line: #433a8a;
+  --sun: #ffd25e; --coral: #ff8277; --sky: #5cb8ff; --mint: #3fdca4; --grape: #a98bff;
+  --good-bg: #124f3d; --good-fg: #aef5d6; --bad-bg: #5a2330; --bad-fg: #ffc4bd;
+  --shadow: 0 6px 0 rgba(0,0,0,.35);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font-body); font-size: 18px; font-weight: 700;
+  padding-inline: 16px; padding-block: 24px 40px; min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 8% 12%, color-mix(in srgb, var(--sun) 35%, transparent) 0 70px, transparent 71px),
+    radial-gradient(circle at 94% 20%, color-mix(in srgb, var(--sky) 28%, transparent) 0 90px, transparent 91px),
+    radial-gradient(circle at 90% 92%, color-mix(in srgb, var(--coral) 28%, transparent) 0 80px, transparent 81px),
+    radial-gradient(circle at 6% 88%, color-mix(in srgb, var(--mint) 28%, transparent) 0 70px, transparent 71px);
+  background-attachment: fixed;
+}
+.wrap { max-width: 720px; margin-inline: auto; display: grid; gap: 16px; }
+header { display: grid; gap: 12px; }
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; display: flex; align-items: center; gap: 10px; min-width: 0; }
+.brand small { display: block; font-family: var(--font-body); font-size: .8rem; color: var(--muted); font-weight: 700; }
+.dots { display: inline-grid; grid-template-columns: repeat(2, 14px); gap: 3px; flex: none; }
+.dots i { width: 14px; height: 14px; border-radius: 50%; }
+.dots i:nth-child(1) { background: var(--coral); } .dots i:nth-child(2) { background: var(--sun); }
+.dots i:nth-child(3) { background: var(--mint); } .dots i:nth-child(4) { background: var(--sky); }
+.score { font-family: var(--font-display); font-weight: 600; background: var(--card); border: 3px solid var(--fg); border-radius: 999px; padding: 6px 16px; box-shadow: var(--shadow); font-variant-numeric: tabular-nums; }
+.progress-row { display: flex; align-items: center; gap: 12px; }
+.progress-row span { font-size: .95rem; color: var(--muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.bar { flex: 1; height: 18px; background: var(--card); border: 3px solid var(--fg); border-radius: 999px; overflow: hidden; min-width: 0; }
+.bar > div { height: 100%; width: 0; border-radius: 999px; transition: width .4s ease;
+  background: repeating-linear-gradient(45deg, var(--coral) 0 14px, var(--sun) 14px 28px, var(--mint) 28px 42px, var(--sky) 42px 56px); }
+.card { background: var(--card); border: 3px solid var(--fg); border-radius: 28px; padding: 22px; box-shadow: var(--shadow); display: grid; gap: 18px; }
+.q-head { display: flex; gap: 14px; align-items: flex-start; justify-content: space-between; }
+.q-tag { display: inline-block; background: var(--grape); color: #fff; font-family: var(--font-display); border-radius: 999px; padding: 2px 14px; font-size: .9rem; margin-bottom: 8px; }
+h1, h2 { font-family: var(--font-display); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+#question { font-size: clamp(1.4rem, 5vw, 1.9rem); }
+.read { flex: none; display: inline-flex; align-items: center; gap: 8px; border: 3px solid var(--fg); background: var(--sky); color: #0d1b3a; font: 700 .95rem var(--font-display); padding: 8px 14px; border-radius: 999px; cursor: pointer; box-shadow: 0 4px 0 rgba(43,35,80,.25); }
+.read svg { width: 22px; height: 22px; fill: currentColor; }
+.read:active { transform: translateY(3px); box-shadow: 0 1px 0 rgba(43,35,80,.25); }
+.read[aria-pressed="true"] { background: var(--sun); }
+.options { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.opt { --c: var(--coral); display: flex; align-items: center; gap: 12px; text-align: left; width: 100%; min-height: 76px; padding: 12px 14px;
+  background: color-mix(in srgb, var(--c) 18%, var(--card)); color: var(--fg); border: 3px solid var(--c); border-radius: 20px;
+  font: 800 1.05rem/1.25 var(--font-body); cursor: pointer; box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 70%, #000); transition: transform .08s; }
+.opt:nth-child(2) { --c: var(--sky); } .opt:nth-child(3) { --c: var(--mint); } .opt:nth-child(4) { --c: var(--grape); }
+.opt .letter { flex: none; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: var(--c); color: #fff; font: 700 1.1rem var(--font-display); }
+.opt:hover:not(:disabled) { transform: translateY(-2px); }
+.opt:active:not(:disabled) { transform: translateY(3px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 70%, #000); }
+.opt:disabled { cursor: default; }
+.opt.correct { background: var(--good-bg); border-color: var(--mint); color: var(--good-fg); animation: pop .35s; }
+.opt.correct .letter { background: var(--mint); }
+.opt.wrong { background: var(--bad-bg); border-color: var(--coral); color: var(--bad-fg); animation: shake .35s; }
+.opt.wrong .letter { background: var(--coral); }
+.opt.dim { opacity: .55; }
+button:focus-visible { outline: 4px solid var(--fg); outline-offset: 3px; }
+.feedback { border-radius: 20px; padding: 14px 16px; font-size: 1.05rem; display: grid; gap: 4px; }
+.feedback strong { font-family: var(--font-display); font-size: 1.25rem; }
+.feedback.good { background: var(--good-bg); color: var(--good-fg); }
+.feedback.bad { background: var(--bad-bg); color: var(--bad-fg); }
+.next, .again { justify-self: end; border: 3px solid var(--fg); background: var(--sun); color: #2b2350; font: 700 1.15rem var(--font-display); padding: 10px 26px; border-radius: 999px; cursor: pointer; box-shadow: 0 5px 0 rgba(43,35,80,.3); }
+.next:active, .again:active { transform: translateY(3px); box-shadow: 0 2px 0 rgba(43,35,80,.3); }
+.result { text-align: center; justify-items: center; }
+.result h2 { font-size: clamp(1.7rem, 6vw, 2.3rem); }
+.stars { display: flex; gap: 8px; }
+.stars svg { width: 54px; height: 54px; }
+.big { font-family: var(--font-display); font-weight: 700; font-size: 3.2rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.result p { margin: 0; color: var(--muted); max-width: 40ch; }
+.again { justify-self: center; }
+@keyframes pop { 50% { transform: scale(1.04); } }
+@keyframes shake { 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+@media (max-width: 520px) {
+  .options { grid-template-columns: minmax(0, 1fr); }
+  .q-head { flex-direction: column; }
+  .card { padding: 18px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main class="wrap">
+  <header>
+    <div class="top">
+      <div class="brand"><span class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div>What Makes Humans Unique<small>AI Literacy · Lesson 5 · Grade 2</small></div></div>
+      <div class="score" aria-live="polite">Score: <span id="score">0</span></div>
+    </div>
+    <div class="progress-row">
+      <div class="bar" role="progressbar" id="bar" aria-label="Quiz progress" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0"><div id="fill"></div></div>
+      <span id="count">Question 1 of 10</span>
+    </div>
+  </header>
+
+  <section class="card" id="quiz">
+    <div class="q-head">
+      <div>
+        <span class="q-tag" id="tag">Question 1</span>
+        <h1 id="question"></h1>
+      </div>
+      <button class="read" id="read" type="button" aria-pressed="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 4V5L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+        <span id="readLabel">Read Aloud</span>
+      </button>
+    </div>
+    <div class="options" id="options" role="group" aria-label="Answer choices"></div>
+    <div id="feedback" aria-live="polite"></div>
+    <button class="next" id="next" type="button" hidden>Next</button>
+  </section>
+
+  <section class="card result" id="result" hidden></section>
+</main>
+
+<script>
+(function () {
+  var QUESTIONS = [
+    { q: "What is empathy?", o: ["Being very loud", "Knowing and sharing how another person feels", "Drawing a picture", "Running fast"], a: 1,
+      why: "Empathy is knowing and sharing how another person feels." },
+    { q: "What is imagination?", o: ["Making up new ideas, stories, and pictures in your mind", "Eating lunch", "Following a rule", "Counting to ten"], a: 0,
+      why: "Imagination is making up new ideas, stories, and pictures in your mind." },
+    { q: "What does caring mean?", o: ["Keeping all the toys", "Being busy", "Being kind and helping others because you want them to be happy", "Staying quiet"], a: 2,
+      why: "Caring is being kind and helping others because you want them to be happy." },
+    { q: "Your friend is sad. What can a human do?", o: ["Ignore them", "Feel what they feel and help", "Turn off the lights", "Walk away"], a: 1,
+      why: "Humans can feel what others feel and can help." },
+    { q: "A robot says \"I am sorry.\" Does it truly feel sorry like you do?", o: ["Yes, always", "Yes, more than people", "Only on Mondays", "No, it does not have real feelings"], a: 3,
+      why: "A robot can say the words, but it does not truly feel sorry the way you do." },
+    { q: "Which one can AI NOT do?", o: ["Truly feel happy or sad", "Answer questions", "Follow rules", "Sort pictures"], a: 0,
+      why: "AI can answer questions and follow rules, but it does not have real feelings of its own." },
+    { q: "Who can imagine brand-new stories and drawings that never existed before?", o: ["A calculator", "A toaster", "Humans", "A clock"], a: 2,
+      why: "Humans can imagine brand-new stories, drawings, and ideas." },
+    { q: "AI can only use what ___ teach it.", o: ["clouds", "people", "fish", "trees"], a: 1,
+      why: "AI can only use what people teach it. It cannot dream, love, or truly care." },
+    { q: "Which one shows caring?", o: ["Helping a friend who fell down", "Taking a friend's snack", "Laughing at a friend", "Looking away"], a: 0,
+      why: "Helping a friend who needs it is a way to show caring." },
+    { q: "Humans are unique because we ___.", o: ["only follow rules", "never feel anything", "copy everything", "feel, imagine, and care"], a: 3,
+      why: "Humans are unique because we feel, imagine, and care!" }
+  ];
+  var LETTERS = ["A", "B", "C", "D"];
+  var CHEERS = ["Great job!", "Yes, that's right!", "Awesome!", "You got it!", "Super!"];
+  var TRYS = ["Nice try!", "Almost!", "Good guess!"];
+
+  var $ = function (id) { return document.getElementById(id); };
+  var idx = 0, score = 0, answered = false;
+  var synth = window.speechSynthesis;
+  var canSpeak = !!(synth && window.SpeechSynthesisUtterance);
+
+  function stopSpeech() {
+    if (canSpeak) synth.cancel();
+    $("read").setAttribute("aria-pressed", "false");
+    $("readLabel").textContent = "Read Aloud";
+  }
+
+  // Read Aloud: question + every option, in one utterance. Never touches answers.
+  $("read").addEventListener("click", function (event) {
+    event.stopPropagation();
+    event.preventDefault();
+    if (!canSpeak) return;
+    if (synth.speaking) { stopSpeech(); return; }
+    var item = QUESTIONS[idx];
+    var text = item.q.replace("___", "blank") + ". " +
+      item.o.map(function (opt, i) { return "Option " + LETTERS[i] + ": " + opt + "."; }).join(" ");
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = "en-US"; u.rate = 0.9; u.pitch = 1.1;
+    var done = function () { $("read").setAttribute("aria-pressed", "false"); $("readLabel").textContent = "Read Aloud"; };
+    u.onend = done; u.onerror = done;
+    $("read").setAttribute("aria-pressed", "true");
+    $("readLabel").textContent = "Stop";
+    synth.cancel();
+    synth.speak(u);
+  });
+  if (!canSpeak) $("read").hidden = true;
+
+  function render() {
+    var item = QUESTIONS[idx], n = QUESTIONS.length;
+    answered = false;
+    stopSpeech();
+    $("tag").textContent = "Question " + (idx + 1);
+    $("question").textContent = item.q;
+    $("count").textContent = "Question " + (idx + 1) + " of " + n;
+    $("feedback").innerHTML = "";
+    $("next").hidden = true;
+    $("next").textContent = idx === n - 1 ? "See my score" : "Next";
+    var box = $("options");
+    box.innerHTML = "";
+    item.o.forEach(function (text, i) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "opt"; b.dataset.i = i;
+      var l = document.createElement("span"); l.className = "letter"; l.textContent = LETTERS[i];
+      var t = document.createElement("span"); t.textContent = text;
+      b.appendChild(l); b.appendChild(t);
+      b.addEventListener("click", function () { choose(i); });
+      box.appendChild(b);
+    });
+    setProgress(idx);
+  }
+
+  function setProgress(done) {
+    var n = QUESTIONS.length;
+    $("fill").style.width = (done / n * 100) + "%";
+    $("bar").setAttribute("aria-valuenow", done);
+  }
+
+  function choose(i) {
+    if (answered) return;
+    answered = true;
+    stopSpeech();
+    var item = QUESTIONS[idx], ok = i === item.a;
+    if (ok) score++;
+    $("score").textContent = score;
+    var btns = $("options").children;
+    for (var k = 0; k < btns.length; k++) {
+      btns[k].disabled = true;
+      if (k === item.a) btns[k].classList.add("correct");
+      else if (k === i) btns[k].classList.add("wrong");
+      else btns[k].classList.add("dim");
+    }
+    var head = ok ? CHEERS[idx % CHEERS.length] : TRYS[idx % TRYS.length];
+    var extra = ok ? "" : "The answer is " + LETTERS[item.a] + ": " + item.o[item.a] + ". ";
+    $("feedback").innerHTML = '<div class="feedback ' + (ok ? "good" : "bad") + '"><strong>' + head + '</strong><span>' + extra + item.why + '</span></div>';
+    setProgress(idx + 1);
+    $("next").hidden = false;
+    $("next").focus({ preventScroll: true });
+  }
+
+  $("next").addEventListener("click", function () {
+    if (idx < QUESTIONS.length - 1) { idx++; render(); } else { finish(); }
+  });
+
+  function star(on) {
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z" fill="' +
+      (on ? "var(--sun)" : "var(--line)") + '" stroke="var(--fg)" stroke-width="1.6" stroke-linejoin="round"/></svg>';
+  }
+
+  function finish() {
+    stopSpeech();
+    var n = QUESTIONS.length, pct = score / n;
+    var stars = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : pct > 0.2 ? 1 : 0;
+    var msg = pct >= 0.9 ? "You know what makes humans special!" : pct >= 0.6 ? "Great work! You know how people and AI are different." : "Good start! Try again to learn even more.";
+    $("quiz").hidden = true;
+    var r = $("result");
+    r.hidden = false;
+    r.innerHTML = '<h2>All done!</h2><div class="stars">' + star(stars > 0) + star(stars > 1) + star(stars > 2) + '</div>' +
+      '<div class="big">' + score + ' / ' + n + '</div><p>' + msg + '</p>' +
+      '<button class="again" id="again" type="button">Play again</button>';
+    $("count").textContent = "Finished";
+    $("again").addEventListener("click", function () {
+      idx = 0; score = 0; $("score").textContent = 0;
+      r.hidden = true; $("quiz").hidden = false; render();
+    });
+    $("again").focus({ preventScroll: true });
+  }
+
+  window.addEventListener("pagehide", stopSpeech);
+  render();
+})();
+</script>
+
+</body></html>
